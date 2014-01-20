@@ -1,6 +1,7 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+require APPPATH . '/libraries/REST_Controller.php';
 
-class Test extends CI_Controller
+class Test extends REST_Controller
 {
 
     /**
