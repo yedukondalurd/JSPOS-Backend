@@ -2,9 +2,9 @@
 
 class Auth extends CI_Controller
 {
-    private $message = null;
-    private $data = null;
-    private $status = null;
+    private $message = '';
+    private $data = '';
+    private $status = '';
 
     public function __construct()
     {
@@ -32,7 +32,6 @@ class Auth extends CI_Controller
         } else {
             $this->status = 'error';
             $this->message = 'Request type not supported';
-            $this->data = '';
         }
         return $this->sendResponse();
     }
@@ -44,7 +43,6 @@ class Auth extends CI_Controller
         }
         $this->status = 'success';
         $this->message = 'user logged out successfully';
-        $this->data = '';
         return $this->sendResponse();
     }
 
@@ -53,11 +51,9 @@ class Auth extends CI_Controller
         if ($this->session->userdata('user')) {
             $this->status = 'success';
             $this->message = 'user session exists';
-            $this->data = '';
         } else {
             $this->status = 'error';
             $this->message = 'user session expired';
-            $this->data = '';
         }
         return $this->sendResponse();
     }
