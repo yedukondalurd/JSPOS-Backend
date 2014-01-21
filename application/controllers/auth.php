@@ -20,8 +20,9 @@ class Auth extends CI_Controller
             $password = $this->input->post('password');
             $userExist = $this->users->findUserByEmailAndPassword($username, $password);
             if ($userExist) {
+                $this->session->set_userdata('user', $userExist);
                 $this->status = 'success';
-                $this->message = 'User exists';
+                $this->message = 'User logged in successfully ';
                 $this->data = $userExist;
             } else {
                 $this->status = 'error';
@@ -33,21 +34,35 @@ class Auth extends CI_Controller
             $this->message = 'Request type not supported';
             $this->data = '';
         }
-        echo $this->prepareResponse();
-        exit;
+        return $this->sendResponse();
     }
 
     public function logout()
     {
-
+        if ($this->session->userdata('user')) {
+            $this->session->unset_userdata('user');
+        }
+        $this->status = 'success';
+        $this->message = 'user logged out successfully';
+        $this->data = '';
+        return $this->sendResponse();
     }
 
     public function checkSession()
     {
-
+        if ($this->session->userdata('user')) {
+            $this->status = 'success';
+            $this->message = 'user session exists';
+            $this->data = '';
+        } else {
+            $this->status = 'error';
+            $this->message = 'user session expired';
+            $this->data = '';
+        }
+        return $this->sendResponse();
     }
 
-    public function prepareResponse()
+    private function sendResponse()
     {
         $arr = array(
             'status' => $this->status,
@@ -55,6 +70,7 @@ class Auth extends CI_Controller
             'message' => $this->message,
             'data' => $this->data
         );
-        return json_encode($arr);
+        echo json_encode($arr);
+        exit;
     }
 }
