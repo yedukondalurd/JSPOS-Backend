@@ -51,7 +51,7 @@ class Auth extends CI_Controller
             $this->status = 'success';
             $this->message = 'user session exists';
         } else {
-            $this->status = 'error';
+            $this->status = 'auth error';
             $this->message = 'user session expired';
         }
         return $this->sendResponse();
